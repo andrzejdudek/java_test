@@ -1,4 +1,5 @@
 //Player class. Include data about his animals, and trading 
+import java.util.Scanner;
 
 public class Player {
 	String name;
@@ -9,11 +10,19 @@ public class Player {
 	int horses=0;
 	int smalldog=0;
 	int bigdog=0;
+	Scanner scanner = new Scanner(System.in);
 	
+	public Player() {
+		System.out.println("Write your name");
+		name=scanner.next();
+	}
+	public Player(String s) {
+		name=s;
+	}
 	
 void traderabbits(String wanted) {
 	//Check which animal player want to change to.
-		if (wanted=="sheep") {
+		if (wanted.equals("sheep")) {
 			
 			//Checking if he has enough aniamls
 			if(rabbits>=6){
@@ -142,7 +151,7 @@ void tradecows(String wanted) {
 }
 
 void tradehorses(String wanted) {
-	if (wanted=="cows") {
+	if (wanted.equals("cows")) {
 		
 		if(horses>=1){
 			horses--;

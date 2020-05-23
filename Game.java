@@ -10,14 +10,14 @@ public class Game {
 	String GreenThrow=new String();
 	String RedThrow= new String();
 	
-	Farm ranch;
+	Farm ranch=new Farm();
 	
 	Rand rand=new Rand();
 	
 	Scanner scanner = new Scanner(System.in);
 	
 	public Game(int a) {
-	
+		players =a;
 		gamers = new Participants(a);
 	}
 	
@@ -57,7 +57,14 @@ public class Game {
 				gamers.players[index].rabbits=0;
 			}
 		} else {
-			Player A=gamers.players[index];
+			Player A= new Player("help");
+			A.rabbits=gamers.players[index].rabbits;
+			A.sheep=gamers.players[index].sheep;
+			A.pigs=gamers.players[index].pigs;
+			A.cows=gamers.players[index].cows;
+			A.horses=gamers.players[index].horses;
+			
+			
 			String HelpThrow=GreenThrow;
 			for(int i=0;i<2;i++) {
 				
@@ -190,7 +197,8 @@ public class Game {
 		
 			
 	}
-		
+	
+	
 	boolean CheckIfWin() {
 		boolean win = false;
 		
@@ -210,77 +218,127 @@ public class Game {
 	
 	
 	void moves() {
+		boolean game=true;
 		
-	if(index==players) {
-		index=0;
-	}
-	System.out.println(gamers.players[index].name + "' turn");
-
-	GreenThrow=GD.ThrowDice(3);
-	RedThrow=RD.ThrowDice(rand.DiceThrow());
-	
-	System.out.println("Dice roll:"+ GreenThrow +", " + RedThrow );
-	
-	AddUnits(index);
-	
-	
-	//Beginning trading
-	System.out.println("Time for trading!");
-	
-	String given = null;
-	String wanted = null;
-	
-	boolean trading =true;
-	boolean names = true;
-	while(trading= true) {
-		System.out.print("You have: " + gamers.players[index].rabbits + " rabbits,");
-		System.out.print(gamers.players[index].sheep + " sheep,");
-		System.out.print(gamers.players[index].pigs + " pigs,");
-		System.out.print(gamers.players[index].cows + " cows,");
-		System.out.print(gamers.players[index].horses + " horses.");
-		
-		System.out.println("6 rabbits = 1 sheep");
-		System.out.println("2 sheep = 1 pig");
-		System.out.println("3 pigs = 1 cow");
-		System.out.println("2 cows = 1 horse");
-		System.out.println("1 sheep = 1 small dog");
-		System.out.println("1 cow = 1 big dog");
-		System.out.println("Type: \"end\" to finish exchanging");
-		
-		while(names==true) {
-			System.out.println("What animals do you want to exchange?");
-			given=scanner.next();
+		while(game==true) {
 			
-			if(given=="end") {
-				trading = false;
-				given = null;
-				wanted = null;
-				break;
+			if(index==players) {
+				index=0;
 			}
 			
-			System.out.println("What animals do you want to exchange for?");
-			wanted=scanner.next();
+			System.out.println(gamers.players[index].name + "' turn");
+		
+//			GreenThrow=GD.ThrowDice(rand.DiceThrow());
+//			RedThrow=RD.ThrowDice(rand.DiceThrow());
 			
-			if(ranch.checkUnits(given, wanted)==true) {
-				break;
+			GreenThrow=GD.ThrowDice(6);
+			RedThrow=RD.ThrowDice(6);
+//			
+			
+			System.out.println("Dice roll:"+ GreenThrow +", " + RedThrow );
+			
+			AddUnits(index);
+			
+			System.out.print("You have: " + gamers.players[index].rabbits + " rabbits,");
+			System.out.print(gamers.players[index].sheep + " sheep,");
+			System.out.print(gamers.players[index].pigs + " pigs,");
+			System.out.print(gamers.players[index].cows + " cows,");
+			System.out.print(gamers.players[index].horses + " horses");
+			if(gamers.players[index].smalldog>0) {
+				System.out.print(", ");
+				System.out.print(gamers.players[index].smalldog + " small dog");
 			}
+			if(gamers.players[index].bigdog>0) {
+				System.out.print(", ");
+				System.out.print(gamers.players[index].bigdog + " big dog");
+			}
+			System.out.print(".");
+			System.out.println("");
+			
+			if(GreenThrow=="wolf"||RedThrow=="fox") {
+			} else {
+			
+				//Beginning trading
+				System.out.println("Time for trading!");
+				
+				String given = null;
+				String wanted = null;
+				
+				boolean trading =true;
+				boolean names = true;
+				while(trading= true) {
+					
+					
+					
+					System.out.println("6 rabbits = 1 sheep");
+					System.out.println("2 sheep = 1 pig");
+					System.out.println("3 pigs = 1 cow");
+					System.out.println("2 cows = 1 horse");			
+			
+					System.out.println("1 sheep = 1 small dog");
+					System.out.println("1 cow = 1 big dog");
+					System.out.println("Type: \"end\" to finish exchanging as answer for any question");
+					
+					while(names==true) {
+						System.out.println("What animals do you want to exchange?");
+						given=scanner.nextLine();
+						
+						if(given.equals("end")==true) {
+							trading = false;
+							given = null;
+							wanted = null;
+							break;
+						}
+						
+						System.out.println("What animals do you want to exchange for?");
+						wanted=scanner.nextLine();
+						
+						if(wanted.equals("end")==true) {
+							trading = false;
+							given = null;
+							wanted = null;
+							break;
+						}
+						
+						if(ranch.checkUnits(given, wanted)==true) {
+							break;
+						}
+					}
+					
+					if(trading==false) {
+						break;
+					}
+					
+					ranch.tradeUnits(given, wanted);
+					gamers.players[index].tradeUnits(given, wanted);
+					
+					if( CheckIfWin()==true) {
+						System.out.println("Player " + gamers.players[index].name + " win!!!");
+						game=false;
+						break;
+					}
+					
+					System.out.print("You have: " + gamers.players[index].rabbits + " rabbits,");
+					System.out.print(gamers.players[index].sheep + " sheep,");
+					System.out.print(gamers.players[index].pigs + " pigs,");
+					System.out.print(gamers.players[index].cows + " cows,");
+					System.out.print(gamers.players[index].horses + " horses");
+					if(gamers.players[index].smalldog>0) {
+						System.out.print(", ");
+						System.out.print(gamers.players[index].smalldog + " small dog");
+					}
+					if(gamers.players[index].bigdog>0) {
+						System.out.print(", ");
+						System.out.print(gamers.players[index].bigdog + " big dog");
+					}
+					System.out.print(".");
+					System.out.println("");
+				}
+				
+			}
+			System.out.println("Type anything to end round");
+			scanner.next();
+			index++;
 		}
-		if(trading==false) {
-			break;
-		}
-		
-		ranch.tradeUnits(given, wanted);
-		gamers.players[index].tradeUnits(given, wanted);
-		
-		if( CheckIfWin()==true) {
-			System.out.println("Player " + gamers.players[index].name + " win!!!");
-			break;
-		}
-		
-		index++;
-		
-	}
-	
-	
 	}
 }
