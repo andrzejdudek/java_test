@@ -21,7 +21,7 @@ public class Farm {
 boolean checkrabbits(String wanted) {
 	//Checking if is enough animals in farm for player to change to
 		boolean answer=false;
-		if (wanted=="sheep") {
+		if (wanted.equals("sheep")==true) {
 			
 			if(rabbits>=6){
 				answer=true;
@@ -228,7 +228,7 @@ void tradecows(String wanted) {
 
 boolean checkhorses(String wanted) {
 	boolean answer=false;
-	if (wanted=="cows") {
+	if (wanted.equals("cows")==true) {
 		
 		if(horses>=1){
 			answer=true;

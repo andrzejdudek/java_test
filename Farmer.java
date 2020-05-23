@@ -10,9 +10,9 @@ public class Farmer {
 //		System.out.println(GD.ThrowDice(3));
 //		
 		
+		System.out.println("FARMER");
 		Scanner scanner = new Scanner(System.in);
 		try {
-		System.out.println("FARMER");
 		
 		boolean game = true;
 		int option;

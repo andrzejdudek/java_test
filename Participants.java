@@ -15,12 +15,12 @@ public class Participants {
 	public Participants(int number) {
 		
 		players= new Player[number];
-		Arrays.fill(players, new Player());
-		
-		for(int i=0;i<players.length;i++) {
-			System.out.println(i + ". player name");
-			players[i].name=scanner.next();
-	}
+//		Arrays.fill(players, new Player());
+		for(int i=0;i<number;i++) {
+			players[i]= new Player();
+		}
+	
+
 	}
 	
 }

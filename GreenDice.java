@@ -1,13 +1,13 @@
-
+import java.util.Arrays;
 public class GreenDice {
 	
-	String[] fields;
-	
+	String[] fields= new String[12];
+	//Arrays.fill(fields, new String);
 	public GreenDice(){
-		fields = new String[12];
-//		for(int i=0;i<12;i++) {
-//			fields[i]=new String();
-//		}
+		
+		for(int i=0;i<12;i++) {
+			fields[i]=new String();
+		}
 		int index=0;
 		for(int i=0;i<6;i++) {
 			fields[index++]="rabbit";
