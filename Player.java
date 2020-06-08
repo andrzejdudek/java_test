@@ -1,5 +1,4 @@
 //Player class. Include data about his animals, and trading 
-
 public class Player {
 	String name;
 	int rabbits=0;
@@ -10,193 +9,353 @@ public class Player {
 	int smalldog=0;
 	int bigdog=0;
 	
+	boolean NoRabbits = false;
+	boolean NoSheep = false;
+	boolean NoPigs = false;
+	boolean NoCows = false;
+	boolean NoHorses = false;
+	boolean WrongName= false;
 	
-void traderabbits(String wanted) {
-	//Check which animal player want to change to.
-		if (wanted=="sheep") {
-			
-			//Checking if he has enough aniamls
-			if(rabbits>=6){
-				rabbits-=6;
-				sheep++;
-				
-			} else {
-				System.out.println("Not enough rabbits");
-			}
-			
-		} else {
-			System.out.println("Wrong name");
-		}
+	public Player() {}
+	public Player(String s) {
+		name=s;
 	}
 	
-void tradesheep(String wanted) {
+boolean checkrabbits(String wanted) {
+	//Checking if is enough animals in farm for player to change to
+		boolean answer=false;
+		if (wanted.equals("sheep")==true) {
+			
+			if(rabbits>=6){
+				answer=true;
+				
+			} else {
+				NoRabbits=true;
+				answer=false;
+
+			}
+		}
+		return answer;
+	}
+	
+void traderabbits() {
+	//Adding and removing animals
+		rabbits-=6;
+		sheep++;
+	}
+	
+boolean checksheep(String wanted) {
+		boolean answer=false;
 		switch(wanted) {
 		
 		case "rabbits":
 			
 			if(sheep>=1) {
-				sheep--;
-				rabbits+=6;
+				answer=true;
 			} else {
-				System.out.println("Not enough sheep");
+				NoSheep=true;
+				answer=false;
 			}
 			
 			break;
 		
 		case "pigs":
 			if(sheep>=2) {
-				sheep-=2;
-				pigs++;
-			} else {
-				System.out.println("Not enough sheep");
+				answer=true;
+				} else {
+				NoSheep=true;
+				answer=false;
 			}
 			
 			break;
 		
-		case "small dog":
+		case "smalldog":
 			if(sheep>=1) {
-				smalldog++;
-				sheep--;
-			} else {
-				System.out.println("Not enough sheep");
+				answer=true;
+				} else {
+				NoSheep=true;
+				answer=false;
+
 			}
 			
 			break;
 			
-		default:
-			System.out.println("Wrong name");	
 		}
+		return answer;
 	}
 	
-void tradepigs(String wanted) {
+void tradesheep(String wanted) {
+	switch(wanted) {
+	
+	case "rabbits":
+		sheep--;
+		rabbits+=6;
 		
-		switch (wanted) {
+		break;
+	
+	case "pigs":
+		sheep-=2;
+		pigs++;
+	
+		break;
+	
+	case "smalldog":
+		smalldog++;
+		sheep--;
 		
-		case "sheep":
-			
-			if(pigs>=1) {
-				pigs--;
-				sheep+=2;
-			} else {
-				System.out.println("Not enough pigs");
-			}
-			
-			break;
-			
-		case "cows":
-			
-			if(pigs>=3) {
-				pigs-=3;
-				cows++;
-			} else {
-				System.out.println("Not enough pigs");
-			}
-			break;
-			
-		default:
-			System.out.println("Wrong name");	
-		}
+		break;
 	}
+}
 
-void tradecows(String wanted) {
+boolean checkpigs(String wanted) {
+	boolean answer=false;
+	switch (wanted) {
+		
+	case "sheep":
+			
+		if(pigs>=1) {
+			answer=true;
+		} else {
+			NoPigs=true;
+			answer=false;
+		}
+			
+		break;
+			
+	case "cows":
+			
+		if(pigs>=3) {
+			answer=true;
+		} else {
+			NoPigs=true;
+			answer=false;
+		}
+		break;
+			
+	}
+	return answer;
+}
+
+void tradepigs(String wanted) {
+	
+	switch (wanted) {
+	
+	case "sheep":
+		
+		pigs--;
+		sheep+=2;
+		
+		break;
+		
+	case "cows":
+		
+		pigs-=3;
+		cows++;
+	
+		break;
+	}
+}
+
+boolean checkcows(String wanted) {
+	
+	boolean answer = false;
 	switch(wanted) {
 	
 	case "pigs":
 		
 		if(cows>=1) {
-			cows--;
-			pigs+=3;
+			answer = true;
 		} else {
-			System.out.println("Not enough cows");
+			NoCows=true;
+			answer = false;
 		}
 		
 		break;
 	
 	case "horses":
 		if(cows>=2) {
-			cows-=2;
-			horses++;
+			answer = true;
 		} else {
-			System.out.println("Not enough cows");
+			NoCows=true;
+			answer = false;
 		}
 		
 		break;
 	
-	case "big dog":
-		if(sheep>=1) {
-//			if(bigdog==0) {
-				bigdog++;
-				cows--;
-//			} else {
-//				System.out.println("You already have big dog");
-//			}
+	case "bigdog":
+		if(cows>=1) {
+			answer = true;
 		} else {
-			System.out.println("Not enough sheep");
+			NoCows=true;
+			answer = false;
 		}
 		
 		break; 
 		
-	default:
-		System.out.println("Wrong name");	
+	}
+	return answer;
+}
+
+void tradecows(String wanted) {
+	switch(wanted) {
+	
+	case "pigs":
+		cows--;
+		pigs+=3;
+		
+		break;
+	
+	case "horses":
+		cows-=2;
+		horses++;
+		
+		break;
+	
+	case "bigdog":
+		bigdog++;
+		cows--;
+		
+		break; 
 	}
 }
 
-void tradehorses(String wanted) {
-	if (wanted=="cows") {
+boolean checkhorses(String wanted) {
+	boolean answer=false;
+	if (wanted.equals("cows")==true) {
 		
 		if(horses>=1){
-			horses--;
-			cows+=2;
-			
+			answer=true;
 		} else {
-			System.out.println("Not enough horses");
+			NoHorses=true;
+			answer = false;
 		}
 		
-	} else {
-		System.out.println("Wrong name");
+		
 	}
+	return answer;
+}
+
+void tradehorses() {
+		
+	horses--;
+	cows+=2;
 }
 
 
-void tradeUnits(String given, String wanted) {
-		//Checking which animals player wants to change
+boolean checkUnits(String given, String wanted) {
+	//Checking if trade is possible
+	boolean answer = false;
+		
 		switch (given) {
 		
 		case "rabbits":
-			traderabbits(wanted);
+			if(checkrabbits(wanted)==true) {
+				answer =true;
+			}
 			
 			break;
 			
 			
 		case "sheep":
-			tradesheep(wanted);			
+			if(checksheep(wanted)==true) {
+				answer =true;
+			}			
 			
 			break;
 			
 			
 		case "pigs":
-			tradepigs(wanted);
+			if(checkpigs(wanted)==true) {
+				answer =true;
+			}
 						
 			break;
 			
 			
 		case "cows":
-			tradecows(wanted);
+			if(checkcows(wanted)==true) {
+				answer =true;
+			}
 			
 			break;
 			
-		case "horse":
-			tradehorses(wanted);
+		case "horses":
+			if(checkhorses(wanted)==true) {
+				answer =true;
+			}
 			
 			break;
 			
-			default:
-				System.out.println("Wrong name");
 		}
+		return answer;
 	}
 
+void tradeUnits(String given, String wanted) {
+	//Trading animals
+	switch (given) {
+	
+	case "rabbits":
+		traderabbits();
+		
+		break;
+		
+		
+	case "sheep":
+		tradesheep(wanted);			
+		
+		break;
+		
+		
+	case "pigs":
+		tradepigs(wanted);
+					
+		break;
+		
+		
+	case "cows":
+		tradecows(wanted);
+		
+		break;
+		
+	case "horses":
+		tradehorses();
+		
+		break;
+		
+	}
+}
 
 
+String ErrorMessage() {
+	String answer = new String();
+	
+		if(NoRabbits==true) {
+			NoRabbits=false;
+			answer+="Not enough rabbits. ";
+		}
+		if(NoSheep==true) {
+			NoSheep=false;
+			answer+="Not enough sheep. ";
+		}
+		if(NoPigs==true) {
+			NoPigs=false;
+			answer+="Not enough pigs. ";
+		}
+		if(NoCows==true) {
+			NoCows=false;
+			answer+="Not enough cows. ";
+		}
+		if(NoHorses==true) {
+			NoHorses=false;
+			answer+="Not enough horses. ";
+		}
+		
+	
+		
+		
+		return answer;
+	
+}
 
 
 }
