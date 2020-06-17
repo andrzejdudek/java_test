@@ -420,11 +420,12 @@ public class CLayout {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				//Creating game logic based on player number
-				names = new String[(int)Double.parseDouble(gi1text.getText())];
-				logic = new GameLogic((int)Double.parseDouble(gi1text.getText()));
-				players = (int)Double.parseDouble(gi1text.getText());
-				cl.show(pCont,"3");
-		
+				if((int)Double.parseDouble(gi1text.getText())>1 && (int)Double.parseDouble(gi1text.getText()) <7){
+					names = new String[(int)Double.parseDouble(gi1text.getText())];
+					logic = new GameLogic((int)Double.parseDouble(gi1text.getText()));
+					players = (int)Double.parseDouble(gi1text.getText());
+					cl.show(pCont,"3");
+				}
 			}
 		});
 	}
